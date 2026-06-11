@@ -10,7 +10,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return Inertia::render('profile/Index', [
+        return Inertia::render('profile/index', [
             'profile' => Profile::getActive(),
         ]);
     }
@@ -29,7 +29,9 @@ class ProfileController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $profile = Profile::getActive() ?? new Profile();
+        dd($validated);
+
+        $profile = Profile::getActive() ?? new Profile;
         $profile->fill($validated);
         $profile->is_active = true;
         $profile->save();

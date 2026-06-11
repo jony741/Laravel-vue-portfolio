@@ -1,9 +1,8 @@
 <!-- resources/js/pages/profile/Index.vue -->
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3';
+import { Form, Head, useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/AppLayout.vue';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +16,7 @@ import {
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'vue-sonner';
+import ProfileController from '@/actions/App/Http/Controllers/ProfileController';
 
 interface ProfileData {
     id?: number;
@@ -78,9 +78,7 @@ const submitForm = () => {
 
 <template>
     <Head title="Profile" />
-
-    <AppLayout>
-        <div class="container mx-auto max-w-3xl space-y-6 px-4 py-8">
+    <div class="container mx-auto space-y-6 px-4 py-8">
             <div>
                 <h1 class="text-3xl font-bold text-foreground">Profile</h1>
                 <p class="mt-1 text-muted-foreground">
@@ -97,7 +95,8 @@ const submitForm = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form class="space-y-6" @submit.prevent="submitForm">
+                    <form class="space-y-6"
+                          v-bind="ProfileController.store.form()">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div class="space-y-2">
                                 <Label for="full_name">Full Name *</Label>
@@ -123,7 +122,6 @@ const submitForm = () => {
                                     v-model="form.designation"
                                     type="text"
                                     placeholder="Senior Developer"
-                                    required
                                 />
                                 <p
                                     v-if="form.errors.designation"
@@ -327,5 +325,4 @@ const submitForm = () => {
                 </CardContent>
             </Card>
         </div>
-    </AppLayout>
 </template>
