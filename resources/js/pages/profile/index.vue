@@ -2,11 +2,11 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
+import { toast } from 'vue-sonner';
+import ProfileController from '@/actions/App/Http/Controllers/ProfileController';
+import InputError from '@/components/InputError.vue';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
     Card,
     CardContent,
@@ -14,10 +14,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { toast } from 'vue-sonner';
-import InputError from '@/components/InputError.vue';
-import ProfileController from '@/actions/App/Http/Controllers/ProfileController';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ProfileData {
     id?: number;
@@ -51,10 +51,21 @@ const previewAvatar     = ref(props.profile?.avatar_url || '');
 
 const initials = computed(() => {
     const name = previewName.value.trim();
-    if (!name) return 'YN';
+
+    if (!name) {
+        return 'YN';
+    }
+
     const parts = name.split(/\s+/).filter(Boolean);
-    if (parts.length === 0) return 'YN';
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+
+    if (parts.length === 0) {
+        return 'YN';
+    }
+
+    if (parts.length === 1) {
+        return parts[0].slice(0, 2).toUpperCase();
+    }
+
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 });
 </script>
@@ -70,6 +81,39 @@ const initials = computed(() => {
                 Manage the single portfolio profile displayed across the application.
             </p>
         </div>
+
+        <!-- Live preview card — reads from refs, not the form -->
+        <Card>
+            <CardHeader>
+                <CardTitle>Preview</CardTitle>
+                <CardDescription>
+                    How your profile will appear to visitors.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div class="flex items-start space-x-4 rounded-lg border bg-muted/20 p-4">
+                    <Avatar class="h-16 w-16">
+                        <AvatarImage
+                            v-if="previewAvatar"
+                            :src="previewAvatar"
+                            :alt="previewName || 'Avatar'"
+                        />
+                        <AvatarFallback>{{ initials }}</AvatarFallback>
+                    </Avatar>
+                    <div class="flex-1 space-y-1">
+                        <h3 class="text-lg font-semibold">
+                            {{ previewName || 'Your Name' }}
+                        </h3>
+                        <p class="text-sm text-muted-foreground">
+                            {{ previewDesig || 'Your Designation' }}
+                        </p>
+                        <p class="text-sm">
+                            {{ previewDesc || 'Your short description will appear here…' }}
+                        </p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
 
         <Card>
             <CardHeader>
@@ -243,38 +287,7 @@ const initials = computed(() => {
             </CardContent>
         </Card>
 
-        <!-- Live preview card — reads from refs, not the form -->
-        <Card>
-            <CardHeader>
-                <CardTitle>Preview</CardTitle>
-                <CardDescription>
-                    How your profile will appear to visitors.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div class="flex items-start space-x-4 rounded-lg border bg-muted/20 p-4">
-                    <Avatar class="h-16 w-16">
-                        <AvatarImage
-                            v-if="previewAvatar"
-                            :src="previewAvatar"
-                            :alt="previewName || 'Avatar'"
-                        />
-                        <AvatarFallback>{{ initials }}</AvatarFallback>
-                    </Avatar>
-                    <div class="flex-1 space-y-1">
-                        <h3 class="text-lg font-semibold">
-                            {{ previewName || 'Your Name' }}
-                        </h3>
-                        <p class="text-sm text-muted-foreground">
-                            {{ previewDesig || 'Your Designation' }}
-                        </p>
-                        <p class="text-sm">
-                            {{ previewDesc || 'Your short description will appear here…' }}
-                        </p>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
+
 
     </div>
 </template>
