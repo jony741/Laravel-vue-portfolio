@@ -3,7 +3,7 @@
 import { Form, Head } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
-import ProfileController from '@/actions/App/Http/Controllers/ProfileController';
+import ProfileController from '@/actions/App/Http/Controllers/Admin/ProfileController';
 import InputError from '@/components/InputError.vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
