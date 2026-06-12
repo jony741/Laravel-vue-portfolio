@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function index()
     {
         return Inertia::render('profile/index', [
-            'profile' => Profile::getActive(),
+            'profile' => Profile::first(),
         ]);
     }
 
@@ -28,12 +28,9 @@ class ProfileController extends Controller
             'email' => 'nullable|email',
             'is_active' => 'boolean',
         ]);
-
-        dd($validated);
-
-        $profile = Profile::getActive() ?? new Profile;
+        $profile = Profile::first() ?? new Profile;
         $profile->fill($validated);
-        $profile->is_active = true;
+        $profile->is_active = isset($validated['is_active']) ? 1 : 0;
         $profile->save();
 
         return redirect()->back()->with('success', 'Profile saved successfully!');
