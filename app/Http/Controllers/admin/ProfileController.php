@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return Inertia::render('profile/index', [
+        return Inertia::render('admin/profile', [
             'profile' => Profile::first(),
         ]);
     }

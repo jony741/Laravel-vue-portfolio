@@ -126,7 +126,6 @@ const initials = computed(() => {
                 <Form
                     v-bind="ProfileController.store.form()"
                     :options="{ preserveScroll: true }"
-                    reset-on-success
                     class="space-y-6"
                     v-slot="{ errors, processing, reset }"
                     @success="toast.success('Profile saved successfully!')"
