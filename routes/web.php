@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\admin\ExperienceController;
+use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\ProjectController;
 use App\Http\Controllers\admin\TechnologyController;
 use App\Http\Controllers\admin\TechStackController;
-use App\Http\Controllers\admin\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])
@@ -17,9 +17,11 @@ Route::middleware(['auth'])
         Route::get('/experience', [ExperienceController::class, 'getExperience'])->name('experience.showExperienceData');
         Route::post('/experience', [ExperienceController::class, 'updateExperience'])->name('experience.updateExperience');
 
-        Route::get('/projects', [ProjectController::class, 'getProject'])->name('projects.getProject');
-        Route::post('/projects', [ProjectController::class, 'updateProject'])->name('projects.updateProject');
-
+        // Project routes
+        Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+        Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 
         Route::get('/technologies', [TechnologyController::class, 'getTechnology'])->name('technologies.getTechnology');
         Route::post('/technologies', [TechnologyController::class, 'updateTechnology'])->name('technologies.updateTechnology');

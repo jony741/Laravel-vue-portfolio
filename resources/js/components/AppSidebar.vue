@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/sidebar';
 import { showExperienceData } from '@/routes/admin/experience';
 import { showProfile } from '@/routes/admin/profile';
-import { getProject  } from '@/routes/admin/projects';
+import { index as getProject  } from '@/routes/admin/projects';
 import { getTechStack } from '@/routes/admin/tech-stack';
 import { getTechnology } from '@/routes/admin/technologies';
 import type { NavItem } from '@/types';
