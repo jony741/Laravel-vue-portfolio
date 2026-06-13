@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends Model
 {
@@ -35,7 +36,7 @@ class Project extends Model
     }
 
     // many-to-many relationship through project_technologies
-    public function technologies()
+    public function technologies(): BelongsToMany
     {
         return $this->belongsToMany(
             Technology::class,

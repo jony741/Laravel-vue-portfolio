@@ -29,5 +29,13 @@ class Technology extends Model
         return $this->hasMany(StackItem::class);
     }
 
-
+    // app/Models/Technology.php
+    public static function groupedByCategory(): array
+    {
+        return static::orderBy('category')->orderBy('name')
+            ->get()
+            ->groupBy('category')
+            ->map(fn ($techs) => $techs->values())
+            ->toArray();
+    }
 }
