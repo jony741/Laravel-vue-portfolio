@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\RedirectResponse;
@@ -39,7 +40,7 @@ class ProjectController extends Controller
 
         $validated = $this->getArr($request);
 
-        $validated['profile_id'] = auth()->user()->profile->id;
+        $validated['profile_id'] = Profile::first()->id;
         $validated['is_featured'] = $request->boolean('is_featured');
 
         $project = Project::create($validated);
@@ -55,7 +56,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project): RedirectResponse
     {
         $validated = $this->getArr($request);
-        
+
         $validated['is_featured'] = $request->boolean('is_featured');
 
         $project->update($validated);

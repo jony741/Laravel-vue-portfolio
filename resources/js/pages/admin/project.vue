@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
-import { Pencil, Trash2, Plus, ExternalLink, X, } from '@lucide/vue';
-import { ref } from 'vue';
+import { ExternalLink, GitFork, Pencil, Plus, Trash2, X } from '@lucide/vue';
+import { computed, ref } from 'vue';
 import { toast } from 'vue-sonner';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
@@ -46,8 +46,8 @@ defineOptions({
 });
 
 const page = usePage();
-const projects     = ref<Project[]>((page.props.projects as Project[]) || []);
-const technologies = ref<Record<string, Technology[]>>(
+const projects = computed(() => (page.props.projects as Project[]) || []);
+const technologies = computed(() =>
     (page.props.technologies as Record<string, Technology[]>) || {}
 );
 
@@ -55,7 +55,7 @@ const showModal        = ref(false);
 const isEditing        = ref(false);
 const selectedProject  = ref<Project | null>(null);
 const isLoading        = ref(false);
-const formErrors       = ref<Record<string, string[]>>({});
+const formErrors       = ref<Record<string, string>>({});
 
 // Form data — includes technology_ids array
 const formData = ref({
@@ -167,7 +167,7 @@ const submitForm = () => {
             toast.success(isEditing.value ? 'Project updated!' : 'Project created!');
             closeModal();
         },
-        onError: (errors: Record<string, string[]>) => {
+        onError: (errors: Record<string, string>) => {
             formErrors.value = errors;
             toast.error('Please check the form for errors.');
         },
@@ -278,7 +278,7 @@ const categories = [
                                 <ExternalLink class="h-4 w-4" />
                             </a>
                             <a v-if="project.repo_url" :href="project.repo_url" target="_blank" class="text-gray-600 transition-colors hover:text-gray-800" title="Repository">
-                                <Github class="h-4 w-4" />
+                                <GitFork class="h-4 w-4" />
                             </a>
                             <span v-if="!project.live_url && !project.repo_url" class="text-gray-400">-</span>
                         </div>
@@ -334,7 +334,7 @@ const categories = [
                         <div class="grid gap-2">
                             <Label for="name">Project Name *</Label>
                             <Input id="name" v-model="formData.name" type="text" required placeholder="Enter project name" />
-                            <InputError :message="formErrors.name?.[0]" />
+                            <InputError :message="formErrors.name" />
                         </div>
 
                         <!-- Category -->
@@ -350,7 +350,7 @@ const categories = [
                                     </SelectItem>
                                 </SelectContent>
                             </Select>
-                            <InputError :message="formErrors.category?.[0]" />
+                            <InputError :message="formErrors.category" />
                         </div>
 
                         <!-- Description -->
@@ -364,7 +364,7 @@ const categories = [
                                 required
                                 placeholder="Describe your project..."
                             />
-                            <InputError :message="formErrors.description?.[0]" />
+                            <InputError :message="formErrors.description" />
                         </div>
 
                         <!-- URLs -->
@@ -372,12 +372,12 @@ const categories = [
                             <div class="grid gap-2">
                                 <Label for="live_url">Live URL</Label>
                                 <Input id="live_url" v-model="formData.live_url" type="url" placeholder="https://example.com" />
-                                <InputError :message="formErrors.live_url?.[0]" />
+                                <InputError :message="formErrors.live_url" />
                             </div>
                             <div class="grid gap-2">
                                 <Label for="repo_url">Repository URL</Label>
                                 <Input id="repo_url" v-model="formData.repo_url" type="url" placeholder="https://github.com/..." />
-                                <InputError :message="formErrors.repo_url?.[0]" />
+                                <InputError :message="formErrors.repo_url" />
                             </div>
                         </div>
 
@@ -385,7 +385,7 @@ const categories = [
                         <div class="grid gap-2">
                             <Label for="thumbnail_url">Thumbnail URL</Label>
                             <Input id="thumbnail_url" v-model="formData.thumbnail_url" type="url" placeholder="https://example.com/image.jpg" />
-                            <InputError :message="formErrors.thumbnail_url?.[0]" />
+                            <InputError :message="formErrors.thumbnail_url" />
                         </div>
 
                         <!-- ── TECHNOLOGIES ── -->
@@ -448,7 +448,7 @@ const categories = [
                                 </p>
 
                             </div>
-                            <InputError :message="formErrors.technology_ids?.[0]" />
+                            <InputError :message="formErrors.technology_ids" />
                         </div>
 
                         <!-- Featured + Sort Order -->
@@ -460,7 +460,7 @@ const categories = [
                             <div class="grid gap-2">
                                 <Label for="sort_order">Sort Order</Label>
                                 <Input id="sort_order" v-model.number="formData.sort_order" type="number" min="0" />
-                                <InputError :message="formErrors.sort_order?.[0]" />
+                                <InputError :message="formErrors.sort_order" />
                             </div>
                         </div>
 
