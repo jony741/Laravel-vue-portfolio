@@ -1,14 +1,13 @@
 <script setup lang="ts">
 
 import { Head, router, usePage } from '@inertiajs/vue3';
-import { Pencil, Trash2, Plus, ExternalLink } from '@lucide/vue';
-import { ref } from 'vue';
+import { Pencil, Trash2, Plus } from '@lucide/vue';
+import { ref, computed } from 'vue';
 import { toast } from 'vue-sonner';
 import Heading from '@/components/Heading.vue';
 
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -25,7 +24,7 @@ defineOptions({
 
 
 const page = usePage();
-const technologies = ref(page.props.technologies || []);
+const technologies = computed(()=>(page.props.technologies || []))
 const showModal = ref(false);
 const isEditing = ref(false);
 const selectedTechnology = ref(null);
@@ -344,8 +343,7 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-.modal-backdrop{
+.modal-backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
-
 </style>
