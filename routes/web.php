@@ -24,7 +24,9 @@ Route::middleware(['auth'])
         Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
 
         Route::get('/technologies', [TechnologyController::class, 'getTechnology'])->name('technologies.getTechnology');
-        Route::post('/technologies', [TechnologyController::class, 'updateTechnology'])->name('technologies.updateTechnology');
+        Route::post('/technologies', [TechnologyController::class, 'store'])->name('technologies.store');
+        Route::put('/technologies/{technology}', [TechnologyController::class, 'update'])->name('technologies.update');
+        Route::delete('/technologies/{technology}', [TechnologyController::class, 'destroy'])->name('technologies.destroy');
 
         Route::get('/tech-stack', [TechStackController::class, 'getTechStack'])->name('tech-stack.getTechStack');
         Route::post('/tech-stack', [TechStackController::class, 'updateTechStack'])->name('tech-stack.updateTechStack');

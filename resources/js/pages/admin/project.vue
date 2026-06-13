@@ -199,7 +199,7 @@ const closeModal = () => {
 <template>
     <Head title="Projects Management" />
 
-    <div class="container mx-auto py-6 space-y-6">
+    <div class="container mx-auto py-6 space-y-6 px-4">
         <!-- Header -->
         <div class="flex justify-between items-center">
             <Heading
@@ -213,6 +213,8 @@ const closeModal = () => {
                 Add New Project
             </Button>
         </div>
+
+
         <!-- Projects Table -->
         <div class="bg-white rounded-lg border shadow-sm overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
